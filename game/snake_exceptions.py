@@ -1,0 +1,2 @@
+class SnakeException(Exception):
+    pass

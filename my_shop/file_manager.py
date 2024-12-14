@@ -1,5 +1,4 @@
 import json
-from product import Product
 
 class FileManager:
     """
@@ -7,12 +6,19 @@ class FileManager:
     """
     @staticmethod
     def save_to_file(file_name, data):
+        list_for_writing = []
+        if data:
+            attributes = data[0].__dict__.keys()
+            for item in data:
+                item_dict = {}
+                for attribute in attributes:
+                    item_dict[attribute] = getattr(item, attribute)
+                list_for_writing.append(item_dict)
         with open(file_name, "w") as file:
-            json.dump([{'title': product.title,'price': product.price,
-                        'amount': product.amount} for  product in data], file)
+            json.dump(list_for_writing, file)
 
     @staticmethod
     def load_from_file(file_name):
         with open(file_name, "r") as file:
             data = json.load(file)
-        return [Product(title=item['title'], price=float(item['price']), amount=int(item['amount'])) for item in data]
+        return data

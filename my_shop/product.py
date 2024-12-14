@@ -2,16 +2,16 @@ from shop_exceptions import ShopException
 
 class NotNegativeValue:
     def __set_name__(self, owner, name):
-        self._attr_name = '_' + name
+        self.name = name
 
     def __get__(self, instance, owner):
-        return getattr(instance, self._attr_name, 0)
+        return instance.__dict__[self.name]
 
     def __set__(self, instance, value):
         if type(value) is int and value >= 0:
-            setattr(instance, self._attr_name, value)
+            instance.__dict__[self.name] = value
         else:
-            raise ShopException(f"Not valid {self._attr_name} value")
+            raise ShopException(f'{self.name.capitalize()} must be not negative integer value!')
 
 
 class Product:
@@ -19,33 +19,21 @@ class Product:
     """Клас товар. Товар може бути зарезервований - доданий до корзини."""
 
     amount = NotNegativeValue()
-    reserved = NotNegativeValue()
+    # reserved = NotNegativeValue()
 
-    def __init__(self, title, price, amount):
+    def __init__(self, item_id, title, price, amount):
+        self.item_id = item_id
         self.title = title
         self.price = price
         self.amount = amount
-        self.reserved = 0
 
-    def reserve(self, amount):
+    def __repr__(self):
+        return f'id: {self.item_id}, {self.title}, price: {self.price}, amount: {self.amount}'
+
+    def take(self, amount):
         """Додати до резерву (корзини) відповідну кількість товару"""
-        if amount <= self.amount:
-            self.amount -= amount
-            self.reserved += amount
-        else:
-            raise ShopException(f"Try to reserve more {self.title} than is available")
+        self.amount -= amount
 
-    def unreserve(self, amount):
-        """Прибрати із резерву (корзини) відповідну кількість товару"""
-        if self.reserved >= amount:
-            self.amount += amount
-            self.reserved -= amount
-        else:
-            raise ShopException(f"Try to unreserve not reserved product")
-
-    def take_from_reserve(self, amount):
-        """Прибрати із резерву (корзини) відповідну кількість товару і додати до замовлення"""
-        if self.reserved >= amount:
-            self.reserved -= amount
-        else:
-            raise ShopException(f"Try to unreserve not reserved product")
+    def add(self, amount):
+        """Додати до резерву (корзини) відповідну кількість товару"""
+        self.amount += amount
