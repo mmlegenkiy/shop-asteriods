@@ -1,3 +1,6 @@
+# from os import environ
+# environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
+
 import pygame
 import time
 import random
@@ -21,8 +24,8 @@ class Game:
         pygame.font.init()
         self.font = pygame.font.SysFont('Comic Sans MS', 30)
         self.timer = pygame.time.Clock()
-        self.background_sound = pygame.mixer.Sound("sounds/background_sound.mp3")
-        self.explosion_sound = pygame.mixer.Sound("sounds/explosion_sound1.mp3")
+        # self.background_sound = pygame.mixer.Sound("sounds/background_sound.mp3")
+        # self.explosion_sound = pygame.mixer.Sound("sounds/explosion_sound1.mp3")
 
 
     def display(self):
@@ -41,13 +44,13 @@ class Game:
         right = False
         explosion_sound = False
         while True:
-            if explosion_sound:
-                # pygame.mixer.pause()
-                # pygame.mixer.unpause()
-                self.explosion_sound.play(0)
-            # else:
-            #     self.background_sound.play(-1)
-            # с некоторой вероятность будем добавлять астероиды сверху экрана
+            # if explosion_sound:
+            #     # pygame.mixer.pause()
+            #     # pygame.mixer.unpause()
+            #     self.explosion_sound.play(0)
+            # # else:
+            # #     self.background_sound.play(-1)
+            # # с некоторой вероятность будем добавлять астероиды сверху экрана
             value = random.randint(1, 1000)
             # print(value)
             if value > 900:

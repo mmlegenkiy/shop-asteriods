@@ -2,9 +2,9 @@ from shop_exceptions import ShopException
 from shop import Shop
 
 if __name__ == '__main__':
-    my_shop = Shop()
-    my_product_manager = my_shop.products
-    my_customer_manager = my_shop.customers
+    my_shop = Shop() # магазин
+    my_product_manager = my_shop.products # для зручного керування товарами
+    my_customer_manager = my_shop.customers # для зручного керування користувачами
 
     while True:
         message = ("---------------------------\n"
@@ -36,7 +36,7 @@ if __name__ == '__main__':
                 except KeyError:
                     print('Not valid data')
                 except ShopException:
-                    print('Amount and reserved should be not negative numbers')
+                    print('Amount should be not negative numbers')
             case 3:
                 try:
                     product_id = int(input('Enter product id to delete: '))
