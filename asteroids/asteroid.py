@@ -3,17 +3,23 @@ from pygame.transform import scale
 
 
 class Asteroid(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+    def __init__(self, x_position, y_position):
         pygame.sprite.Sprite.__init__(self)
-        self.image = scale(pygame.image.load("images/asteroid.png"), (50, 50))
-        self.rect = pygame.Rect(x, y, 50, 50)
-        self.yvel = 5
+        self.width = 50
+        self.height = 50
+        self.image = scale(pygame.image.load("images/asteroid.png"), (self.width, self.height))
+        self.rect = pygame.Rect(x_position, y_position, self.width, self.height)
+        self.x_velocity = 0
+        self.y_velocity = 5
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
-    def update(self):
-        self.rect.y += self.yvel
+    def update(self, sizes):
+        self.rect.y += self.y_velocity
+        self.rect.y += self.x_velocity
 
-        if self.rect.y > 900:
+        if self.rect.x > sizes[0] or self.rect.x < 0:
+            self.kill()
+        if self.rect.y > sizes[1] or self.rect.y < 0:
             self.kill()
